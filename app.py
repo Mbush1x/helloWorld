@@ -8,9 +8,16 @@ def hello_world():
     return render_template('hello.html')
 
 
+@app.route('/hello')
+def hello():
+    return 'Hello World from Madison Bush!'
+
+
+
 @app.route('/about')
 def about():
     return render_template('about.html')
+
 
 
 if __name__ == '__main__':
