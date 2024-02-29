@@ -1,0 +1,44 @@
+ /* Background color */
+p {
+    background-color: #adfde1; /* Set your desired background color */
+}
+
+/* Paragraphs */
+p {
+    font-size: 20px;
+     font-weight: bolder;
+}
+
+/* Headers */
+h2 {
+    color: #c9c75b;
+    text-decoration: underline;
+}
+
+/* Style table */
+table {
+    border-style: solid;
+    border-width: 3px;
+    border-color: #e7943c;
+    border-collapse: collapse;
+}
+
+/* paragraph with id */
+#third-paragraph {
+    color: #000203;
+    font-size: 14px;
+    font-weight: bold;
+}
+
+/* Style with class */
+.special-text {
+    font-style: italic;
+    color: #b7e0ad;
+}
+
+/* logo */
+.logo {
+    width: 200px;
+    height: auto;
+}
+
