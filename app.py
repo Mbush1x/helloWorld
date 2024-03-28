@@ -17,10 +17,6 @@ def hello():
 def about():
     return render_template('about.html')
 
-@app.route('/about-css')
-def about_css():
-    return render_template('about-css.html')
-
 @app.route('/favorite-course')
 def favorite_course():
     print('Entered Subject Name: ' + request.args.get('subject'))
@@ -28,7 +24,9 @@ def favorite_course():
       return render_template('favorite-course.html')
 
 
-
+@app.route('/contact')
+def contact():
+    return render_template('contact.html')
 
 
 
