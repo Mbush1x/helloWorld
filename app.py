@@ -11,7 +11,8 @@ app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 app.config['SECRET_KEY'] = 'beyond_course_scope'
 db.init_app(app)
 
-
+with app.app_context():
+    db.create_all()
 @app.route('/student/view')
 def student_view_all():
     students = Student.query.outerjoin(Major, Student.major_id == Major.major_id) \
@@ -60,7 +61,6 @@ def student_create():
 
     flash('Invalid action. Please try again.', 'error')
     return redirect(url_for('student_view_all'))
-
 
 
 @app.route('/student/update/<int:student_id>', methods=['GET', 'POST'])
@@ -120,4 +120,3 @@ def home():
 
 if __name__ == '__main__':
     app.run()
-
