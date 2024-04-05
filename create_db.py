@@ -1,32 +1,41 @@
-from app import app, db
-from models import Student, Major
-import datetime as dt
+from flask_sqlalchemy import SQLAlchemy
+db = SQLAlchemy()
 
-with app.app_context():
-    db.drop_all()
-    db.create_all()
+class Student(db.Model):
+    __tablename__ = "student"
 
-    # Initial loading of majors
-    majors = ['Accounting', 'Finance', 'Information Systems', 'International Business', 'Management', \
-              'Operations Management & Business Analytics', 'Supply Chain Management']
-    for each_major in majors:
-        print(each_major)
-        a_major = Major(major=each_major)
-        db.session.add(a_major)
-        db.session.commit()
+    student_id = db.Column(db.Integer, primary_key=True)
+    first_name = db.Column(db.String(30), nullable=False)
+    last_name = db.Column(db.String(50), nullable=False)
+    major_id = db.Column(db.Integer, db.ForeignKey('major.major_id'))
+    birth_date = db.Column(db.DateTime, nullable=False)
+    num_credits_completed = db.Column(db.Integer, nullable=False)
+    gpa = db.Column(db.Float, nullable=False)
+    is_honors = db.Column(db.Boolean, nullable=False)
 
-    # Initial loading of students first_name, last_name, major_id, birth_date, is_honors
-    students = [
-        {'student_id': '1', 'first_name': 'Robert', 'last_name':'Smith', 'major_id':3,
-            'birth_date': dt.datetime(2007, 6, 1), 'is_honors':1},
-        {'student_id': '2', 'first_name': 'Leo', 'last_name': 'Van Munching', 'major_id':6,
-         'birth_date': dt.datetime(2008, 3, 24), 'is_honors': 0},
-    ]
+    def __init__(self, first_name, last_name, major_id, birth_date, is_honors):
+        self.first_name = first_name
+        self.last_name = last_name
+        self.major_id = major_id
+        self.birth_date = birth_date
+        self.num_credits_completed = 0
+        self.gpa = 0.0
+        self.is_honors = is_honors
 
-    for each_student in students:
-        print(f'{each_student["first_name"]} {each_student["last_name"]} inserted into Student')
-        a_student = Student(first_name=each_student["first_name"], last_name=each_student["last_name"],
-                            major_id=each_student["major_id"], birth_date=each_student["birth_date"],
-                            is_honors=each_student["is_honors"])
-        db.session.add(a_student)
-        db.session.commit()
+    def __repr__(self):
+        return f"{self.first_name} {self.last_name}"
+
+class Major(db.Model):
+    __tablename__ = "major"
+
+    major_id = db.Column(db.Integer, primary_key=True)
+    major = db.Column(db.String(30), nullable=False)
+    students = db.relationship('Student', backref='students')
+
+    def __init__(self, major):
+        self.major = major
+
+    def __repr__(self):
+        return f"{self.major}"
+
+
