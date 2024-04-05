@@ -11,8 +11,7 @@ app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 app.config['SECRET_KEY'] = 'beyond_course_scope'
 db.init_app(app)
 
-with app.app_context():
-    db.create_all()
+
 @app.route('/student/view')
 def student_view_all():
     students = Student.query.outerjoin(Major, Student.major_id == Major.major_id) \
@@ -40,20 +39,18 @@ def student_view(student_id):
 @app.route('/student/create', methods=['GET', 'POST'])
 def student_create():
     if request.method == 'GET':
-        majors = Major.query.order_by(Major.major) \
-            .order_by(Major.major) \
-            .all()
-        return render_template('student_entry.html', majors=majors, action='create')
+        majors = Major.query.order_by(Major.major).all()
+        return render_template('student_entry.html', student={}, majors=majors, action='create')
     elif request.method == 'POST':
         first_name = request.form['first_name']
         last_name = request.form['last_name']
         major_id = request.form['major_id']
-
         birth_date = request.form['birth_date']
+        email = request.form['email']
         is_honors = True if 'is_honors' in request.form else False
 
         student = Student(first_name=first_name, last_name=last_name, major_id=major_id,
-                          birth_date=dt.strptime(birth_date, '%Y-%m-%d'), is_honors=is_honors)
+                          birth_date=dt.strptime(birth_date, '%Y-%m-%d'), is_honors=is_honors, email=email)
         db.session.add(student)
         db.session.commit()
         flash(f'{first_name} {last_name} was successfully added!', 'success')
