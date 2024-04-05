@@ -52,6 +52,9 @@
   </div>
 
   <div class="col-md-4">
+    <label for="email">Email:</label>
+    <input type="email" class="form-control" id="email" name="email" maxlength="100" placeholder="Enter Email" value="{{ student.email }}">
+  <div class="col-md-4">
     <label for="major_id" class="form-label"><strong>Major</strong></label>
     {% if action and action in ['create', 'update'] %}
     <select name="major_id" id="major_id" class="form-select form-select-md" aria-label=".form-select-md example">
